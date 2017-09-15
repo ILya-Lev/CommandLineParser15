@@ -44,13 +44,13 @@ namespace CommandLineParser.BusinessLogic
 			else if (elementTail == "[*]")
 				_marshalers.Add(elementId, new StringArrayArgumentMarshaler());
 			else
-				throw new ArgsException(InvalidArgumentFormat, elementId, elementTail);
+				throw new ArgsException(ErrorCode.InvalidArgumentFormat, elementId, elementTail);
 		}
 
 		private void ValidateSchemaElementId(char elementId)
 		{
 			if (!char.IsLetter(elementId))
-				throw new ArgsException(InvalidArgumentName, elementId, null);
+				throw new ArgsException(ErrorCode.InvalidArgumentName, elementId, null);
 		}
 
 		private void ParseArgumentStrings(List<string> argsList)
@@ -79,15 +79,15 @@ namespace CommandLineParser.BusinessLogic
 		{
 			IArgumentMarshaler m;
 			if (!_marshalers.TryGetValue(argChar, out m))
-				throw new ArgsException(UnexpectedArgument, argChar, null);
+				throw new ArgsException(ErrorCode.UnexpectedArgument, argChar, null);
 			_argsFound.Add(argChar);
 			try
 			{
-				m.Set(_args[_currentArgumentIndex]);
+				m.Set(_args, _currentArgumentIndex);
 			}
 			catch (ArgsException e)
 			{
-				e.SetErrorArgumentId(argChar);
+				e.ErrorArgumentId = argChar;
 				throw;
 			}
 		}
@@ -98,10 +98,6 @@ namespace CommandLineParser.BusinessLogic
 			return _currentArgumentIndex + 1 < _args.Length ? _currentArgumentIndex + 1 : 0;
 		}
 
-		public bool GetBoolean(char arg) => BooleanArgumentMarshaler.GetValue(_marshalers[arg]);
-	}
-
-	internal interface IArgumentMarshaler
-	{
+		public TValue GetValue<TValue>(char arg) => ArgumentMarshaler<TValue>.GetValue(_marshalers[arg]);
 	}
 }
