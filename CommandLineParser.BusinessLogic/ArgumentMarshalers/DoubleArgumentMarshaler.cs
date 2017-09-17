@@ -1,4 +1,4 @@
-namespace CommandLineParser.BusinessLogic
+namespace CommandLineParser.BusinessLogic.ArgumentMarshalers
 {
 	public sealed class DoubleArgumentMarshaler : ArgumentMarshaler<double>
 	{

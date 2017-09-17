@@ -1,4 +1,4 @@
-﻿namespace CommandLineParser.BusinessLogic
+﻿namespace CommandLineParser.BusinessLogic.ArgumentMarshalers
 {
 	public abstract class ArgumentMarshaler<TValue> : IArgumentMarshaler
 	{

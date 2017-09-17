@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommandLineParser.BusinessLogic.ArgumentMarshalers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -80,6 +81,7 @@ namespace CommandLineParser.BusinessLogic
 			IArgumentMarshaler m;
 			if (!_marshalers.TryGetValue(argChar, out m))
 				throw new ArgsException(ErrorCode.UnexpectedArgument, argChar, null);
+
 			_argsFound.Add(argChar);
 			try
 			{
